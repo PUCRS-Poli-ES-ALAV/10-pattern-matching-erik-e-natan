@@ -1,9 +1,13 @@
+import java.io.*;
+
 public class RabinKarp {
     private final static int d = 256;
     private final static int q = 997;
+    private static int countOp = 0;
+    /// TODO: implement global countOP, remember to redefine it, in each call
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("veryLargeString.txt"));
         String txt1 = "abcdabadbc";
         String txt2 = "abcdabadbcabcdabadbc";
         String txt3 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbc";
@@ -13,30 +17,18 @@ public class RabinKarp {
         String txt7 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
         String txt8 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
         String txt9 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
-        String txt10 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
+
+        String txt10 = br.readLine();
+
+        br.close();
         
-        String pat = "issk";
- 
-        System.out.println("\nTXT1");
-        rabinKarpRollingHash(pat, txt1);
-        System.out.println("\nTXT2");
-        rabinKarpRollingHash(pat, txt2);
-        System.out.println("\nTXT3");
-        rabinKarpRollingHash(pat, txt3);
-        System.out.println("\nTXT4");
-        rabinKarpRollingHash(pat, txt4);
-        System.out.println("\nTXT5");
-        rabinKarpRollingHash(pat, txt5);
-        System.out.println("\nTXT6");
-        rabinKarpRollingHash(pat, txt6);
-        System.out.println("\nTXT7");
-        rabinKarpRollingHash(pat, txt7);
-        System.out.println("\nTXT8");
-        rabinKarpRollingHash(pat, txt8);
-        System.out.println("\nTXT9");
-        rabinKarpRollingHash(pat, txt9);
+        String pat = "abc";
+
         System.out.println("\nTXT10");
+        patternMatcherIterative(pat, txt10);
+        rabinKarpHash(pat, txt10);
         rabinKarpRollingHash(pat, txt10);
+
     }
  
     private static void rabinKarpRollingHash(String pat, String txt) {
@@ -76,6 +68,60 @@ public class RabinKarp {
                 if (t < 0) t = (t + q);
             }
         }
-        System.out.println("op=" + op);
+        System.out.println("rabinKarpRollingHash: op=" + op);
+    }
+
+    private static void patternMatcherIterative(String pat , String txt) {
+        int op = 0;
+        boolean found = true;
+        for(int i = 0; i < txt.length() - pat.length() + 1; i++) {
+
+            op++;
+            if(txt.charAt(i) == pat.charAt(0)) {
+                for(int j = 0; j < pat.length(); j++) {
+                    op++;
+                    if(txt.charAt(i + j) != pat.charAt(j)) {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found) System.out.println("Pattern found at index " + i);
+            }
+            found = true;
+        }
+        System.out.println("patterMatcherIterative: op=" + op);
+    }
+
+    private static void rabinKarpHash(String pat, String txt) {
+        int op = 0;
+        int M = pat.length();
+        int N = txt.length();
+        long patHash = hash(pat, M);
+        boolean found = true;
+
+        for (int i = 0; i <= N - M; i++) {
+            op++;
+            long txtHash = hash(txt.substring(i, i+M), M);
+            if (patHash == txtHash){
+
+                for(int j = 0; j < pat.length(); j++) {
+                    op++;
+                    if(txt.charAt(i + j) != pat.charAt(j)) {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found) System.out.println("Pattern found at index " + i);
+            }
+            found = true;
+        }
+        System.out.println("rabinKarpHash: op=" + op);
+    }
+
+    private static long hash(String s, int M) {
+        long h = 0;
+        for (int j = 0; j < M; j++)
+            h = (h * d + s.charAt(j)) % q;
+        return h;
     }
 }
