@@ -18,7 +18,7 @@ public class RabinKarp {
         double meanExecutionTime;
 
         System.out.println("\n\n### Rabing Karp Rolling Hash ###");
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= 6; i++) {
             System.out.println("\nCaso de Teste " + i);
 
             totalExecutionTime = 0;
