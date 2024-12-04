@@ -22,9 +22,9 @@ public class RabinKarp {
             System.out.println("\nCaso de Teste " + i);
 
             totalExecutionTime = 0;
+            txt = generateRandomString(testTxt[i-1]);
+            pat = generateRandomString(testPat[i-1]);
             for (int j = 0; j < numberOfTests; j++) {
-                txt = generateRandomString(testTxt[i-1]);
-                pat = generateRandomString(testPat[i-1]);
                 op = 0;
                 startTime = System.nanoTime();
                 rabinKarpRollingHash(pat, txt);
@@ -36,7 +36,6 @@ public class RabinKarp {
     
             System.out.println("Tempo Médio de execução: " + meanExecutionTime + " ns");
             System.out.println("Número de operações: " + op);
-            
         }
     }
 
