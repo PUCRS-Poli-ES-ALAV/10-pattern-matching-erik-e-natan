@@ -6,11 +6,12 @@ public class RabinKarp {
     private final static int q = 997;
     private final static int numberOfTests = 10;
     private static int op;
-    private static int[] testTxt = {1,2};
-    private static int[] testPat = {1,2};
+    private static int[] testTxt = {10,100,1000,10000,100000,1000000};
+    private static int[] testPat = {2,26,85,311,9974,60400};
 
     public static void main(String[] args) throws IOException {
         String txt;
+        String pat;
         long startTime;
         long endTime;
         long totalExecutionTime;
@@ -21,10 +22,11 @@ public class RabinKarp {
 
             totalExecutionTime = 0;
             for (int j = 0; j < numberOfTests; j++) {
-                txt = generateRandomString(100); // COLOQUEI QUALQUER NUMERO
+                txt = generateRandomString(testTxt[i-1]);
+                pat = generateRandomString(testPat[i-1]);
                 op = 0;
                 startTime = System.nanoTime();
-                rabinKarpRollingHash("qualquercoisa",txt);
+                rabinKarpRollingHash(pat, txt);
                 endTime = System.nanoTime();
                 totalExecutionTime += (endTime - startTime);
             }
