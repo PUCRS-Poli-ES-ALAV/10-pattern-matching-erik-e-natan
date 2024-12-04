@@ -6,6 +6,8 @@ public class RabinKarp {
     private final static int q = 997;
     private final static int numberOfTests = 10;
     private static int op;
+    private static int[] testTxt = {1,2};
+    private static int[] testPat = {1,2};
 
     public static void main(String[] args) throws IOException {
         String txt;
