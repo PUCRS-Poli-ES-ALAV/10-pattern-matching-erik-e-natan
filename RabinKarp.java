@@ -53,7 +53,6 @@ public class RabinKarp {
     }
  
     private static void rabinKarpRollingHash(String pat, String txt) {
-        int op = 0;
         int M = pat.length();
         int N = txt.length();
         int i, j;
@@ -89,11 +88,9 @@ public class RabinKarp {
                 if (t < 0) t = (t + q);
             }
         }
-        System.out.println("rabinKarpRollingHash: op=" + op);
     }
 
     private static void patternMatcherIterative(String pat , String txt) {
-        int op = 0;
         boolean found = true;
         for(int i = 0; i < txt.length() - pat.length() + 1; i++) {
 
@@ -110,11 +107,9 @@ public class RabinKarp {
             }
             found = true;
         }
-        System.out.println("patterMatcherIterative: op=" + op);
     }
 
     private static void rabinKarpHash(String pat, String txt) {
-        int op = 0;
         int M = pat.length();
         int N = txt.length();
         long patHash = hash(pat, M);
@@ -136,7 +131,6 @@ public class RabinKarp {
             }
             found = true;
         }
-        System.out.println("rabinKarpHash: op=" + op);
     }
 
     private static long hash(String s, int M) {
