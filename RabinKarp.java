@@ -5,9 +5,9 @@ public class RabinKarp {
     private final static int d = 256;
     private final static int q = 997;
     private final static int numberOfTests = 10;
-    private static int op;
     private static int[] testTxt = {10,100,1000,10000,100000,1000000};
     private static int[] testPat = {2,26,85,311,9974,60400};
+    private static int op;
 
     public static void main(String[] args) throws IOException {
         String txt;
