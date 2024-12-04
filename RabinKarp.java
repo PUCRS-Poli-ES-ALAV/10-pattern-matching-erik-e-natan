@@ -1,34 +1,51 @@
 import java.io.*;
+import java.util.Random;
 
 public class RabinKarp {
     private final static int d = 256;
     private final static int q = 997;
-    private static int countOp = 0;
-    /// TODO: implement global countOP, remember to redefine it, in each call
+    private final static int numberOfTests = 10;
+    private static int op;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("veryLargeString.txt"));
-        String txt1 = "abcdabadbc";
-        String txt2 = "abcdabadbcabcdabadbc";
-        String txt3 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbc";
-        String txt4 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
-        String txt5 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
-        String txt6 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
-        String txt7 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
-        String txt8 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
-        String txt9 = "abcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbcabcdabadbc";
+        String txt;
+        long startTime;
+        long endTime;
+        long totalExecutionTime;
+        double meanExecutionTime;
 
-        String txt10 = br.readLine();
+        for (int i = 1; i <= 7; i++) {
+            System.out.println("\nCaso de Teste " + i);
 
-        br.close();
-        
-        String pat = "abc";
+            totalExecutionTime = 0;
+            for (int j = 0; j < numberOfTests; j++) {
+                txt = generateRandomString(100); // COLOQUEI QUALQUER NUMERO
+                op = 0;
+                startTime = System.nanoTime();
+                rabinKarpRollingHash("qualquercoisa",txt);
+                endTime = System.nanoTime();
+                totalExecutionTime += (endTime - startTime);
+            }
 
-        System.out.println("\nTXT10");
-        patternMatcherIterative(pat, txt10);
-        rabinKarpHash(pat, txt10);
-        rabinKarpRollingHash(pat, txt10);
+            meanExecutionTime = totalExecutionTime / numberOfTests;
+    
+            System.out.println("Tempo Médio de execução: " + meanExecutionTime + " ns");
+            System.out.println("Número de operações: " + op);
+            
+        }
+    }
 
+    public static String generateRandomString(int length) {
+        String characters = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder result = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            result.append(characters.charAt(index));
+        }
+
+        return result.toString();
     }
  
     private static void rabinKarpRollingHash(String pat, String txt) {
