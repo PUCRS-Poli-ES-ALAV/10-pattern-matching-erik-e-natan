@@ -1,6 +1,11 @@
 import java.io.*;
 import java.util.Random;
 
+/**
+ * @author Erik Suris, Natan Dias
+ * 
+ * Implementação Base de Rolling Hash: https://www.geeksforgeeks.org/introduction-to-rolling-hash-data-structures-and-algorithms/
+ */
 public class RabinKarp {
     private final static int d = 256;
     private final static int q = 997;
@@ -27,6 +32,7 @@ public class RabinKarp {
             for (int j = 0; j < numberOfTests; j++) {
                 op = 0;
                 startTime = System.nanoTime();
+                // rabinKarpHash(pat, txt);
                 rabinKarpRollingHash(pat, txt);
                 endTime = System.nanoTime();
                 totalExecutionTime += (endTime - startTime);
@@ -93,7 +99,6 @@ public class RabinKarp {
     private static void patternMatcherIterative(String pat , String txt) {
         boolean found = true;
         for(int i = 0; i < txt.length() - pat.length() + 1; i++) {
-
             op++;
             if(txt.charAt(i) == pat.charAt(0)) {
                 for(int j = 0; j < pat.length(); j++) {
@@ -134,6 +139,7 @@ public class RabinKarp {
     }
 
     private static long hash(String s, int M) {
+        op++;
         long h = 0;
         for (int j = 0; j < M; j++)
             h = (h * d + s.charAt(j)) % q;
